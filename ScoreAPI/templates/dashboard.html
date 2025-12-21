@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthFlow – Clinical Risk Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <h1>🧠 HealthFlow – Clinical Risk Dashboard</h1>
+    <p>Real-time patient risk monitoring</p>
+</header>
+
+<div class="container">
+
+    <!-- ================= KPI SECTION ================= -->
+    <div class="kpis">
+        <div class="kpi">
+            <h3>Total Patients</h3>
+            <p>{{ scores | length }}</p>
+        </div>
+
+        <div class="kpi high">
+            <h3>High Risk</h3>
+            <p>
+                {{ scores | selectattr("risk_level", "equalto", "HIGH") | list | length }}
+            </p>
+        </div>
+
+        <div class="kpi">
+            <h3>Average Confidence</h3>
+            <p>
+                {{
+                    (scores | map(attribute="confidence") | sum / (scores|length))
+                    | round(2)
+                }}
+            </p>
+        </div>
+
+        <div class="kpi">
+            <h3>Last Update</h3>
+            <p>{{ scores[0].created_at if scores else "-" }}</p>
+        </div>
+    </div>
+
+    <!-- ================= CHARTS ================= -->
+    <div class="charts">
+        <div class="chart-card">
+            <h3>Risk Distribution</h3>
+            <canvas id="riskChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Confidence Evolution</h3>
+            <canvas id="confidenceChart"></canvas>
+        </div>
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Risk</th>
+                    <th>Confidence</th>
+                    <th>Explanation</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for s in scores %}
+                {% set confidence_pct = (s.confidence * 100) | round(0) %}
+                <tr>
+                    <td>{{ s.patient_pseudo_id }}</td>
+
+                    <td>
+                        <span class="badge {{ s.risk_level | lower }}">
+                            {{ s.risk_level }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>{{ confidence_pct }}%</strong>
+                        <div class="confidence-bar"
+                             data-confidence="{{ confidence_pct }}"
+                             data-risk="{{ s.risk_level }}">
+                            <div class="confidence-fill"></div>
+                        </div>
+                    </td>
+
+                    <td class="explanation">
+                        {{ s.natural_explanation }}
+                    </td>
+
+                    <td>{{ s.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* Progress bars */
+document.querySelectorAll(".confidence-bar").forEach(bar => {
+    bar.querySelector(".confidence-fill").style.width =
+        bar.dataset.confidence + "%";
+});
+
+/* Backend data */
+const scores = {{ scores | tojson }};
+
+/* Pie Chart */
+const riskCounts = { LOW: 0, MODERATE: 0, HIGH: 0, CRITICAL: 0 };
+scores.forEach(s => riskCounts[s.risk_level]++);
+
+new Chart(document.getElementById("riskChart"), {
+    type: "doughnut",
+    data: {
+        labels: Object.keys(riskCounts),
+        datasets: [{
+            data: Object.values(riskCounts),
+            backgroundColor: ["#16a34a", "#f59e0b", "#dc2626", "#7f1d1d"]
+        }]
+    }
+});
+
+/* Line Chart */
+new Chart(document.getElementById("confidenceChart"), {
+    type: "line",
+    data: {
+        labels: scores.map(s => new Date(s.created_at).toLocaleTimeString()),
+        datasets: [{
+            label: "Confidence %",
+            data: scores.map(s => s.confidence * 100),
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,0.15)",
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        scales: { y: { min: 0, max: 100 } }
+    }
+});
+</script>
+
+</body>
+</html>

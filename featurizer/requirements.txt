@@ -1,0 +1,33 @@
+# -----------------------------
+# Kafka & Database
+# -----------------------------
+kafka-python
+psycopg2-binary
+
+# -----------------------------
+# Data processing
+# -----------------------------
+numpy
+pandas
+scikit-learn
+
+# -----------------------------
+# NLP & ML (CPU ONLY)
+# -----------------------------
+torch==2.2.2+cpu
+torchvision==0.17.2+cpu
+torchaudio==2.2.2+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+transformers==4.41.2
+
+# -----------------------------
+# spaCy & scispaCy
+# -----------------------------
+spacy==3.7.4
+scispacy==0.5.4
+
+# -----------------------------
+# FHIR
+# -----------------------------
+fhir.resources==7.1.0

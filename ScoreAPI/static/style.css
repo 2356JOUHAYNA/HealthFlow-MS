@@ -1,0 +1,138 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
+    color: white;
+    padding: 28px 40px;
+}
+
+/* CONTAINER */
+.container {
+    padding: 30px 40px;
+}
+
+/* KPI */
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.kpi h3 {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.kpi p {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.kpi.high p {
+    color: #dc2626;
+}
+
+/* CHARTS */
+.charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* TABLE */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f5f9;
+}
+
+th, td {
+    padding: 14px 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+/* BADGES */
+.badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge.high { background: #fee2e2; color: #dc2626; }
+.badge.low { background: #dcfce7; color: #16a34a; }
+.badge.moderate { background: #fef3c7; color: #f59e0b; }
+
+/* CONFIDENCE BAR */
+.confidence-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease;
+}
+
+.confidence-bar[data-risk="HIGH"] .confidence-fill,
+.confidence-bar[data-risk="CRITICAL"] .confidence-fill {
+    background: #dc2626;
+}
+
+.confidence-bar[data-risk="MODERATE"] .confidence-fill {
+    background: #f59e0b;
+}
+
+.confidence-bar[data-risk="LOW"] .confidence-fill {
+    background: #16a34a;
+}
+
+/* TEXT */
+.explanation {
+    max-width: 420px;
+    font-size: 14px;
+    color: #334155;
+}

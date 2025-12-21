@@ -1,0 +1,13 @@
+# Kafka
+kafka-python
+
+# Database
+psycopg2-binary
+
+# ML
+numpy
+pandas
+scikit-learn
+xgboost
+shap
+joblib
