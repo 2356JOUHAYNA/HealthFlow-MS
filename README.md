@@ -121,12 +121,10 @@ git clone https://github.com/your-org/HealthFlow-MS.git
 cd HealthFlow-MS
 ```
 2. Build and start the services
-bash
-Copy code
+
 docker compose up -d --build
 3. Verify running services
-bash
-Copy code
+
 docker compose ps
 🔗 Service Access URLs
 Service	URL
@@ -142,13 +140,11 @@ https://hapi.fhir.org/baseR4
 
 Trigger ingestion:
 
-bash
-Copy code
+
 curl -X POST http://localhost:8081/api/v1/fhir/sync/patient/<PATIENT_ID>
 The pipeline executes automatically:
 
-nginx
-Copy code
+
 DeID → Featurizer → ModelRisque
 View results:
 
@@ -158,12 +154,10 @@ AuditFairness dashboard
 
 🔐 Authentication & API Usage
 Generate JWT token
-bash
-Copy code
+
 curl -X POST http://localhost:8082/auth/token
 Retrieve patient risk score
-bash
-Copy code
+
 curl -X GET http://localhost:8082/api/v1/score/PATIENT_XXXX \
   -H "Authorization: Bearer <TOKEN>"
 📋 Services Overview
@@ -270,26 +264,13 @@ Salma El Gouffi
 
 Khaoula Aguabdre
 
-📄 License
-This project is released under the MIT License.
 
-markdown
-Copy code
+
+
 
 ---
 
-### ✅ Résultat après correction
-- ✔️ plus de texte “coincé” dans un bloc gris  
-- ✔️ affichage GitHub propre (bouton **Copy**, syntaxe bash)  
-- ✔️ niveau **PFE / projet pro / recruteur**
 
-Si tu veux, je peux maintenant :
-- 🔥 ajouter des **badges GitHub**
-- 📊 créer une **section BPMN**
-- ☁️ ajouter une **version Kubernetes**
-- 🎓 adapter pour **article scientifique**
-
-Dis-moi la suite 💜
 
 
 
