@@ -123,29 +123,39 @@ cd HealthFlow-MS
 2. Build and start the services
 
 docker compose up -d --build
+
 3. Verify running services
 
 docker compose ps
+
 🔗 Service Access URLs
 Service	URL
+
 ProxyFHIR Health	http://localhost:8081/api/v1/fhir/health
+
 ScoreAPI Docs	http://localhost:8082/docs
+
 AuditFairness Dashboard	http://localhost:8050
+
 PostgreSQL	localhost:5432
 
 📡 Ingest Real FHIR Data
+
 Steps
 Choose a valid Patient ID from
+
 https://hapi.fhir.org/baseR4
 
 Trigger ingestion:
 
 
 curl -X POST http://localhost:8081/api/v1/fhir/sync/patient/<PATIENT_ID>
+
 The pipeline executes automatically:
 
 
 DeID → Featurizer → ModelRisque
+
 View results:
 
 ScoreAPI
@@ -153,15 +163,20 @@ ScoreAPI
 AuditFairness dashboard
 
 🔐 Authentication & API Usage
+
 Generate JWT token
 
 curl -X POST http://localhost:8082/auth/token
+
 Retrieve patient risk score
 
 curl -X GET http://localhost:8082/api/v1/score/PATIENT_XXXX \
   -H "Authorization: Bearer <TOKEN>"
+  
 📋 Services Overview
+
 1️⃣ ProxyFHIR (Spring Boot)
+
 FHIR ingestion
 
 Resource validation
@@ -169,16 +184,19 @@ Resource validation
 Kafka publishing
 
 2️⃣ DeID (Python)
+
 Medical data anonymization
 
 Pseudonym generation
 
 3️⃣ Featurizer (Python)
+
 Feature extraction
 
 JSONB storage in PostgreSQL
 
 4️⃣ ModelRisque (Python / ML)
+
 Clinical risk prediction
 
 Outputs:
@@ -188,11 +206,13 @@ risk_level (LOW / MODERATE / HIGH)
 confidence
 
 5️⃣ ScoreAPI (FastAPI)
+
 Secure REST API
 
 JWT authentication
 
 6️⃣ AuditFairness (Dash + Evidently)
+
 Post-deployment ML monitoring
 
 Data quality analysis
@@ -204,6 +224,7 @@ Fairness analysis
 HTML reports generation
 
 🗄️ PostgreSQL Schema
+
 patient_features
 patient_pseudo_id
 
@@ -245,6 +266,7 @@ Full pipeline traceability
 GDPR / HIPAA-ready (conceptual design)
 
 📈 Future Improvements
+
 Integration of a trained XGBoost model
 
 Advanced explainability using SHAP
@@ -258,6 +280,7 @@ PDF export of audit reports
 Kubernetes deployment (Helm, HPA, monitoring)
 
 👩‍💻 Authors
+
 Jouhayna Koubichate
 
 Salma El Gouffi
