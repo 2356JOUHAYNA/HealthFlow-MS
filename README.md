@@ -112,11 +112,14 @@ Each service is independent, containerized, and communicates asynchronously via 
 
 ## 📦 Installation
 
+
+
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/your-org/HealthFlow-MS.git
 cd HealthFlow-MS
+```
 2. Build and start the services
 bash
 Copy code
