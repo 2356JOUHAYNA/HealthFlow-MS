@@ -135,3 +135,154 @@ This ensures scalability, fault tolerance, and full traceability.
 ```bash
 git clone https://github.com/your-org/HealthFlow-MS.git
 cd HealthFlow-MS
+## 🚀 Build and Run the Platform
+
+### 2. Build and start the services
+
+```bash
+docker compose up -d --build
+3. Verify running services
+bash
+Copy code
+docker compose ps
+🔗 Service Access URLs
+Service	URL
+ProxyFHIR Health	http://localhost:8081/api/v1/fhir/health
+ScoreAPI Docs	http://localhost:8082/docs
+AuditFairness Dashboard	http://localhost:8050
+PostgreSQL	localhost:5432
+
+📡 Ingest Real FHIR Data
+Steps
+Choose a valid Patient ID from:
+https://hapi.fhir.org/baseR4
+
+Trigger ingestion:
+
+bash
+Copy code
+curl -X POST http://localhost:8081/api/v1/fhir/sync/patient/<PATIENT_ID>
+The pipeline executes automatically:
+
+nginx
+Copy code
+DeID → Featurizer → ModelRisque
+View results:
+
+ScoreAPI
+
+AuditFairness dashboard
+
+🔐 Authentication & API Usage
+Generate JWT token
+bash
+Copy code
+curl -X POST http://localhost:8082/auth/token
+Retrieve patient risk score
+bash
+Copy code
+curl -X GET http://localhost:8082/api/v1/score/PATIENT_XXXX \
+  -H "Authorization: Bearer <TOKEN>"
+📋 Services Overview
+1️⃣ ProxyFHIR (Spring Boot)
+FHIR ingestion
+
+Resource validation
+
+Kafka publishing
+
+2️⃣ DeID (Python)
+Medical data anonymization
+
+Pseudonym generation
+
+3️⃣ Featurizer (Python)
+Feature extraction
+
+JSONB storage in PostgreSQL
+
+4️⃣ ModelRisque (Python / ML)
+Clinical risk prediction
+
+Outputs:
+
+risk_level (LOW / MODERATE / HIGH)
+
+confidence
+
+5️⃣ ScoreAPI (FastAPI)
+Secure REST API
+
+JWT authentication
+
+6️⃣ AuditFairness (Dash + Evidently)
+Post-deployment ML monitoring
+
+Data Quality analysis
+
+Drift detection
+
+Fairness analysis
+
+HTML reports generation
+
+🗄️ PostgreSQL Schema
+patient_features
+patient_pseudo_id
+
+features_json (JSONB)
+
+created_at
+
+risk_scores
+patient_pseudo_id
+
+risk_level
+
+confidence
+
+created_at
+
+fairness_reports
+id
+
+ref_start
+
+ref_end
+
+cur_start
+
+cur_end
+
+summary (JSONB)
+
+report_path
+
+🔐 Security & Compliance
+Early patient pseudonymization
+
+No direct patient identifiers stored
+
+Full pipeline traceability
+
+GDPR / HIPAA-ready (conceptual design)
+
+📈 Future Improvements
+Integration of a trained XGBoost model
+
+Advanced explainability using SHAP
+
+Automated drift alerts
+
+Scheduled audits (cron)
+
+PDF export of audit reports
+
+Kubernetes deployment (Helm, HPA, monitoring)
+
+👩‍💻 Authors
+Khaoula Aguabdre
+
+Salma El Gouffi
+
+Jouhayna Koubichate
