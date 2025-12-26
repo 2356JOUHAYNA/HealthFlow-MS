@@ -1,114 +1,137 @@
 <img width="1536" height="1024" alt="ChatGPT Image Dec 26, 2025, 11_39_07 PM" src="https://github.com/user-attachments/assets/95683969-c99b-4f11-9453-3f6ed3ec3507" />
 
 
-🧠 HealthFlow-MS
-Plateforme intelligente de prédiction de risque clinique et d’audit ML
+# 🧠 HealthFlow-MS
 
-Basée sur une architecture microservices orientée événements
+**HealthFlow-MS** is an intelligent MLOps platform for clinical risk prediction and machine learning audit, built on an **event-driven microservices architecture**.
 
-Technologies :
-Docker · Spring Boot · Python · PostgreSQL · Apache Kafka · Evidently · Dash
+It processes standardized medical data (FHIR), predicts patient clinical risk, and continuously monitors model quality, drift, and fairness.
 
-🔍 Vue d’ensemble
+---
 
-HealthFlow-MS est une plateforme MLOps orientée microservices dédiée au traitement de données médicales standardisées (FHIR R4), à la prédiction de risque clinique, et au monitoring post-déploiement des modèles de Machine Learning.
+## 🚀 Technologies
 
-La plateforme a été conçue pour répondre aux enjeux critiques de l’IA en santé, en mettant l’accent sur :
+- **Docker & Docker Compose**
+- **Spring Boot (Java)**
+- **Python**
+- **PostgreSQL**
+- **Apache Kafka**
+- **FastAPI**
+- **Evidently AI**
+- **Dash**
 
-la traçabilité complète des données,
+---
 
-la pseudonymisation précoce des patients,
+## 🔍 Overview
 
-la robustesse du pipeline ML,
+HealthFlow-MS is designed to address critical challenges in healthcare AI systems:
 
-la détection de dérive des données,
+- End-to-end **data traceability**
+- Early **patient pseudonymization**
+- Robust **machine learning pipelines**
+- **Data drift detection**
+- **Fairness and bias auditing**
+- Transparent and auditable predictions
 
-l’audit d’équité (fairness) des prédictions.
+The platform follows **privacy-by-design** principles and is conceptually aligned with **GDPR / HIPAA** requirements.
 
-🎯 Objectifs principaux
+---
 
-Ingestion FHIR
-Récupération standardisée de données médicales via FHIR R4.
+## 🎯 Main Objectives
 
-Protection de la vie privée
-Pseudonymisation des patients selon une approche privacy-by-design (GDPR / HIPAA-ready).
+- **FHIR Ingestion**  
+  Standardized retrieval of medical data using FHIR R4
 
-Feature Engineering
-Extraction et agrégation de caractéristiques cliniques exploitables.
+- **Privacy Protection**  
+  Early pseudonymization of patient identifiers
 
-Prédiction ML
-Calcul d’un niveau de risque patient interprétable.
+- **Feature Engineering**  
+  Extraction of clinically meaningful features
 
-Monitoring & Audit ML
+- **ML Risk Prediction**  
+  Patient-level risk scoring and classification
 
-Détection de dérive des données et audit d’équité inter-groupes.
+- **ML Monitoring**  
+  Data quality checks, drift detection, and fairness audit
 
-Visualisation
-Dashboards interactifs pour l’analyse décisionnelle et la gouvernance IA.
+- **Visualization**  
+  Interactive dashboards for decision support and governance
 
-🏗️ Architecture du système
+---
+
+## 🏗️ System Architecture
+
+### Event-Driven Microservices Architecture
+
+
 <img width="1266" height="431" alt="architecture_readmission" src="https://github.com/user-attachments/assets/3a4c4962-b1ba-4483-8865-e6c635429746" />
-📊 Flux de données détaillé
-🔹 ProxyFHIR
 
-Récupération des bundles FHIR
+Each service is:
+- Independent
+- Containerized
+- Communicating asynchronously via Kafka
 
-Validation des ressources
+This ensures scalability, fault tolerance, and full traceability.
 
-Stockage des données brutes
+---
 
-Publication d’événements Kafka
+## 📊 Data Flow Description
 
-🔹 DeID
+### 🔹 ProxyFHIR
+- Retrieves FHIR bundles
+- Validates resources
+- Stores raw data
+- Publishes Kafka events
 
-Suppression des identifiants sensibles
+### 🔹 DeID
+- Removes sensitive identifiers
+- Generates consistent pseudonyms
+- Preserves FHIR structure
 
-Génération de pseudonymes cohérents
+### 🔹 Featurizer
+- Extracts patient-level features
+- Stores features in PostgreSQL (JSONB)
 
-Préservation de la structure FHIR
+### 🔹 ModelRisque
+- Computes risk score and level
+- Stores predictions in database
 
-🔹 Featurizer
+### 🔹 ScoreAPI
+- Exposes predictions via secure REST API
+- JWT-based authentication
 
-Extraction de caractéristiques patient
+### 🔹 AuditFairness
+- Data quality analysis
+- Drift detection
+- Fairness audit across groups
+- Generates Evidently HTML reports
 
-Stockage flexible via PostgreSQL (JSONB)
+---
 
-🔹 ModelRisque
+## 🧪 Observed Results (AuditFairness)
 
-Calcul du score et du niveau de risque
+✔️ No data drift detected  
+✔️ Stable feature distributions  
+✔️ Consistent predictions  
+✔️ Robust model behavior over time  
 
-Enregistrement des résultats
+---
 
-🔹 ScoreAPI
+## 🚀 Getting Started
 
-Exposition sécurisée des scores via API REST
+### Prerequisites
 
-Authentification JWT
+- Docker Engine ≥ 20.10
+- Docker Compose v2
+- **Minimum 8 GB RAM**
+- **20 GB free disk space**
 
-🔹 AuditFairness
+---
 
-Analyse de la qualité des données
+### Installation
 
-Détection de dérive
+#### 1. Clone the repository
 
-Audit d’équité inter-groupes
-
-Génération de rapports Evidently (HTML)
-
-🚀 Démarrage rapide
-Prérequis
-
-Docker Engine ≥ 20.10
-
-Docker Compose v2
-
-8 Go RAM minimum
-
-20 Go d’espace disque
-Installation
-
+```bash
 git clone https://github.com/your-org/HealthFlow-MS.git
 cd HealthFlow-MS
-docker compose up -d --build
-
-Vérifier les services
