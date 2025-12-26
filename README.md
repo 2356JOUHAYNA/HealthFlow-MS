@@ -1,9 +1,12 @@
-🏥 HealthFlow-MS
+<img width="1536" height="1024" alt="ChatGPT Image Dec 26, 2025, 11_39_07 PM" src="https://github.com/user-attachments/assets/95683969-c99b-4f11-9453-3f6ed3ec3507" />
+ 
+ HealthFlow-MS
+
 Plateforme intelligente de prédiction de risque clinique et d’audit ML basée sur une architecture microservices
 
 Docker · Spring Boot · Python · PostgreSQL · Apache Kafka · Evidently · Dash
 
-🗺️ Vue d’ensemble
+Vue d’ensemble
 
 HealthFlow-MS est une plateforme MLOps orientée microservices conçue pour le traitement de données médicales FHIR, la prédiction de risque clinique et le monitoring post-déploiement des modèles de Machine Learning.
 
