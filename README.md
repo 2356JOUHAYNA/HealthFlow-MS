@@ -38,23 +38,12 @@ The platform follows **privacy-by-design** principles and is conceptually aligne
 
 ## 🎯 Main Objectives
 
-- **FHIR Ingestion**  
-  Standardized retrieval of medical data using FHIR R4
-
-- **Privacy Protection**  
-  Early pseudonymization of patient identifiers
-
-- **Feature Engineering**  
-  Extraction of clinically meaningful features
-
-- **ML Risk Prediction**  
-  Patient-level risk scoring and classification
-
-- **ML Monitoring**  
-  Data quality checks, drift detection, and fairness audit
-
-- **Visualization**  
-  Interactive dashboards for decision support and governance
+- **FHIR Ingestion** – Standardized retrieval of medical data using FHIR R4  
+- **Privacy Protection** – Early pseudonymization of patient identifiers  
+- **Feature Engineering** – Extraction of clinically meaningful features  
+- **ML Risk Prediction** – Patient-level risk scoring and classification  
+- **ML Monitoring** – Data quality, drift detection, fairness audit  
+- **Visualization** – Interactive dashboards for governance  
 
 ---
 
@@ -64,12 +53,7 @@ The platform follows **privacy-by-design** principles and is conceptually aligne
 
 <img width="1266" height="431" alt="architecture_readmission" src="https://github.com/user-attachments/assets/3a4c4962-b1ba-4483-8865-e6c635429746" />
 
-Each service is:
-- Independent
-- Containerized
-- Communicating asynchronously via Kafka
-
-This ensures scalability, fault tolerance, and full traceability.
+Each service is independent, containerized, and communicates asynchronously via Kafka, ensuring scalability, fault tolerance, and full traceability.
 
 ---
 
@@ -133,39 +117,36 @@ This ensures scalability, fault tolerance, and full traceability.
 ```bash
 git clone https://github.com/your-org/HealthFlow-MS.git
 cd HealthFlow-MS
-
-
 2. Build and start the services
+bash
+Copy code
 docker compose up -d --build
-
 3. Verify running services
+bash
+Copy code
 docker compose ps
-
 🔗 Service Access URLs
 Service	URL
 ProxyFHIR Health	http://localhost:8081/api/v1/fhir/health
-
 ScoreAPI Docs	http://localhost:8082/docs
-
 AuditFairness Dashboard	http://localhost:8050
-
 PostgreSQL	localhost:5432
+
 📡 Ingest Real FHIR Data
 Steps
-
-Choose a valid Patient ID from:
+Choose a valid Patient ID from
 https://hapi.fhir.org/baseR4
 
 Trigger ingestion:
 
+bash
+Copy code
 curl -X POST http://localhost:8081/api/v1/fhir/sync/patient/<PATIENT_ID>
-
-
 The pipeline executes automatically:
 
+nginx
+Copy code
 DeID → Featurizer → ModelRisque
-
-
 View results:
 
 ScoreAPI
@@ -174,15 +155,16 @@ AuditFairness dashboard
 
 🔐 Authentication & API Usage
 Generate JWT token
+bash
+Copy code
 curl -X POST http://localhost:8082/auth/token
-
 Retrieve patient risk score
+bash
+Copy code
 curl -X GET http://localhost:8082/api/v1/score/PATIENT_XXXX \
   -H "Authorization: Bearer <TOKEN>"
-
 📋 Services Overview
 1️⃣ ProxyFHIR (Spring Boot)
-
 FHIR ingestion
 
 Resource validation
@@ -190,19 +172,16 @@ Resource validation
 Kafka publishing
 
 2️⃣ DeID (Python)
-
 Medical data anonymization
 
 Pseudonym generation
 
 3️⃣ Featurizer (Python)
-
 Feature extraction
 
 JSONB storage in PostgreSQL
 
 4️⃣ ModelRisque (Python / ML)
-
 Clinical risk prediction
 
 Outputs:
@@ -212,16 +191,14 @@ risk_level (LOW / MODERATE / HIGH)
 confidence
 
 5️⃣ ScoreAPI (FastAPI)
-
 Secure REST API
 
 JWT authentication
 
 6️⃣ AuditFairness (Dash + Evidently)
-
 Post-deployment ML monitoring
 
-Data Quality analysis
+Data quality analysis
 
 Drift detection
 
@@ -231,7 +208,6 @@ HTML reports generation
 
 🗄️ PostgreSQL Schema
 patient_features
-
 patient_pseudo_id
 
 features_json (JSONB)
@@ -239,7 +215,6 @@ features_json (JSONB)
 created_at
 
 risk_scores
-
 patient_pseudo_id
 
 risk_level
@@ -249,7 +224,6 @@ confidence
 created_at
 
 fairness_reports
-
 id
 
 ref_start
@@ -265,7 +239,6 @@ summary (JSONB)
 report_path
 
 🔐 Security & Compliance
-
 Early patient pseudonymization
 
 No direct patient identifiers stored
@@ -275,7 +248,6 @@ Full pipeline traceability
 GDPR / HIPAA-ready (conceptual design)
 
 📈 Future Improvements
-
 Integration of a trained XGBoost model
 
 Advanced explainability using SHAP
@@ -289,10 +261,34 @@ PDF export of audit reports
 Kubernetes deployment (Helm, HPA, monitoring)
 
 👩‍💻 Authors
-
 Jouhayna Koubichate
+
 Salma El Gouffi
+
 Khaoula Aguabdre
+
+📄 License
+This project is released under the MIT License.
+
+markdown
+Copy code
+
+---
+
+### ✅ Résultat après correction
+- ✔️ plus de texte “coincé” dans un bloc gris  
+- ✔️ affichage GitHub propre (bouton **Copy**, syntaxe bash)  
+- ✔️ niveau **PFE / projet pro / recruteur**
+
+Si tu veux, je peux maintenant :
+- 🔥 ajouter des **badges GitHub**
+- 📊 créer une **section BPMN**
+- ☁️ ajouter une **version Kubernetes**
+- 🎓 adapter pour **article scientifique**
+
+Dis-moi la suite 💜
+
+
 
 
 
